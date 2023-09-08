@@ -7,12 +7,14 @@ import 'package:flutter/services.dart';
 import 'package:managed_configurations/managed_configurations.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -34,6 +36,10 @@ class _MyAppState extends State<MyApp> {
     } on PlatformException {
       managedAppConfigurations = 'Failed to get managed app configurations.';
     }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
     if (!mounted) return;
 
     setState(() {
@@ -52,17 +58,17 @@ class _MyAppState extends State<MyApp> {
           child: ListView(
             children: [
               ListTile(
-                title: Text('Initial managed configuration:'),
+                title: const Text('Initial managed configuration:'),
                 subtitle: Text('$_managedAppConfigurations\n'),
               ),
               StreamBuilder<Map<String, dynamic>?>(
                 stream: ManagedConfigurations.mangedConfigurationsStream,
                 builder: (context, snapshot) {
                   return ListTile(
-                      title: Text('Live managed configuraiton:'),
+                      title: const Text('Live managed configuraiton:'),
                       subtitle: snapshot.hasData
                           ? Text(json.encode(snapshot.data))
-                          : Text("No changes at the moment"));
+                          : const Text("No changes at the moment"));
                 },
               ),
               OutlinedButton(
@@ -75,12 +81,12 @@ class _MyAppState extends State<MyApp> {
                       json.encode(
                         {
                           "prop1": true,
-                          "datetime": "${DateTime.now().toIso8601String()}"
+                          "datetime": DateTime.now().toIso8601String()
                         },
                       ),
                     );
                   },
-                  child: Text("Report app state"))
+                  child: const Text("Report app state"))
             ],
           ),
         ),

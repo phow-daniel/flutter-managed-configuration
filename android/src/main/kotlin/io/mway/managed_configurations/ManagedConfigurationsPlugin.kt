@@ -1,9 +1,7 @@
 package io.mway.managed_configurations
 
-import android.app.Activity
 import android.content.*
 import android.util.Log
-import androidx.annotation.NonNull
 import androidx.enterprise.feedback.KeyedAppState
 import androidx.enterprise.feedback.KeyedAppStatesReporter
 import com.google.gson.GsonBuilder
@@ -29,7 +27,7 @@ class ManagedConfigurationsPlugin : FlutterPlugin, MethodCallHandler, ActivityAw
 
     private var reporter: KeyedAppStatesReporter? = null
 
-    override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+    override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         context = flutterPluginBinding.applicationContext
         reporter = KeyedAppStatesReporter.create(flutterPluginBinding.applicationContext)
         channel =
@@ -55,7 +53,7 @@ class ManagedConfigurationsPlugin : FlutterPlugin, MethodCallHandler, ActivityAw
         )
     }
 
-    override fun onDetachedFromEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+    override fun onDetachedFromEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         reporter = null
         channel?.setMethodCallHandler(null)
         eventChannel?.setStreamHandler(null)
@@ -78,7 +76,7 @@ class ManagedConfigurationsPlugin : FlutterPlugin, MethodCallHandler, ActivityAw
         context = null
     }
 
-    override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
+    override fun onMethodCall(call: MethodCall, result: Result) {
         when (call.method) {
             "getManagedConfigurations" -> getManagedConfigurations(result)
             "reportKeyedAppState" -> reportKeyedAppState(result, call)
